@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errores)) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)");
-            $stmt->execute([$nombre, $email, password_hash($password, PASSWORD_DEFAULT)]);
+            $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$nombre, $email, password_hash($password, PASSWORD_DEFAULT), 'usuario']);
             header('Location: login.php');
             exit;
         } catch (PDOException $e) {

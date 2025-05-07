@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['usuario'] = [
                 'id' => $usuario['id'],
                 'nombre' => $usuario['nombre'],
-                'email' => $usuario['email']
+                'email' => $usuario['email'],
+                'rol' => $usuario['rol']
             ];
             header('Location: bienvenida.php');
             exit;
