@@ -29,8 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errores)) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$nombre, $email, password_hash($password, PASSWORD_DEFAULT), 'usuario']);
+            // Obtener ID del rol 'usuario'
+            $rolStmt = $pdo->prepare("SELECT id FROM roles WHERE nombre = 'usuario'");
+            $rolStmt->execute();
+            $rolId = $rolStmt->fetchColumn();
+
+            // Insertar usuario con rol_id
+            $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password, rol_id) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$nombre, $email, password_hash($password, PASSWORD_DEFAULT), $rolId]);
+
             header('Location: login.php');
             exit;
         } catch (PDOException $e) {

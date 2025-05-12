@@ -1,12 +1,14 @@
 <?php
 require 'database.php';
+require 'auth.php';
 
-if (!isset($_SESSION['usuario'])) {
-    header('Location: login.php');
-    exit;
-}
+    if (!isset($_SESSION['usuario'])) {
+        header('Location: login.php');
+        exit;
+    }
 
-$nombre = htmlspecialchars($_SESSION['usuario']['nombre']);
+    $nombre = htmlspecialchars($_SESSION['usuario']['nombre']);
+    $permisos = obtenerPermisos($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +29,7 @@ $nombre = htmlspecialchars($_SESSION['usuario']['nombre']);
                 <p class="lead">Has iniciado sesión correctamente.</p>
                 <hr class="my-4">
 
-                <?php if ($_SESSION['usuario']['rol'] === 'admin'): ?>
+                <?php if (!empty($permisos['puede_gestionar_roles'])): ?>
                     <a href="admin.php" class="btn btn-outline-primary btn-lg mb-3">Ir al Panel de Administración</a><br>
                 <?php endif; ?>
 

@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'id' => $usuario['id'],
                 'nombre' => $usuario['nombre'],
                 'email' => $usuario['email'],
-                'rol' => $usuario['rol']
+                'rol_id' => $usuario['rol_id']
             ];
             header('Location: bienvenida.php');
             exit;

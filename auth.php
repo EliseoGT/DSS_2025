@@ -1,15 +1,17 @@
 <?php
-function verificarRol($rolPermitido) {
-    if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== $rolPermitido) {
-        header('Location: login.php');
-        exit;
-    }
+function obtenerPermisos($pdo) {
+    if (!isset($_SESSION['usuario']['rol_id'])) return [];
+
+    $stmt = $pdo->prepare("SELECT * FROM roles WHERE id = ?");
+    $stmt->execute([$_SESSION['usuario']['rol_id']]);
+    return $stmt->fetch() ?: [];
 }
 
-// Para múltiples roles permitidos
-function verificarRoles(array $rolesPermitidos) {
-    if (!isset($_SESSION['usuario']) || !in_array($_SESSION['usuario']['rol'], $rolesPermitidos)) {
+function verificarPermiso($pdo, $permiso) {
+    $permisos = obtenerPermisos($pdo);
+    if (empty($permisos[$permiso]) || !$permisos[$permiso]) {
         header('Location: login.php');
         exit;
     }
 }
+?>
